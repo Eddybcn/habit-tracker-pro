@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Habit Tracker Pro</title>
-    <!-- Estilos -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="app-header">
         <h1>Habit Tracker Pro</h1>
         <div class="user-area">
-            <button id="loginBtn" class="btn btn-primary">Entrar con Google</button>
-            <button id="logoutBtn" class="btn btn-secondary hidden">Sortir</button>
+            <button id="loginBtn" class="btn btn-primary">Entrar amb Google</button>
+            <button id="logoutBtn" class="btn btn-secondary hidden">Tancar sessió</button>
             <span id="userEmail" class="user-email"></span>
         </div>
     </header>
 
-    <!-- NAVEGACIÓN: 8 PESTAÑAS -->
     <nav class="tabs">
         <button class="tab-btn active" data-tab="totElDiaTab">Tot el dia</button>
         <button class="tab-btn" data-tab="matiTab">Mati</button>
@@ -31,6 +29,13 @@
     </nav>
 
     <main class="tab-container">
+        <!-- CONTROLES PARA 5 PRIMERAS PESTAÑAS -->
+        <div id="dateControls" class="date-controls">
+            <button id="todayBtn" class="btn btn-small">Avui</button>
+            <input type="date" id="dateSelector" class="date-input">
+            <span id="selectedDateDisplay" class="date-display"></span>
+        </div>
+
         <!-- PESTAÑA 1: Tot el dia -->
         <section id="totElDiaTab" class="tab-content active">
             <header class="section-header">
@@ -75,6 +80,11 @@
         <section id="setmanatTab" class="tab-content">
             <header class="section-header">
                 <h2>Setmanal</h2>
+                <div class="week-controls">
+                    <button id="prevWeekBtn" class="btn btn-small">← Anterior</button>
+                    <span id="weekDisplay" class="week-display"></span>
+                    <button id="nextWeekBtn" class="btn btn-small">Següent →</button>
+                </div>
             </header>
             <ul id="setmanatHabitsList" class="habits-list compact"></ul>
         </section>
@@ -83,6 +93,11 @@
         <section id="mensualTab" class="tab-content">
             <header class="section-header">
                 <h2>Mensual</h2>
+                <div class="month-controls">
+                    <button id="prevMonthBtn" class="btn btn-small">← Anterior</button>
+                    <span id="monthDisplay" class="month-display"></span>
+                    <button id="nextMonthBtn" class="btn btn-small">Següent →</button>
+                </div>
             </header>
             <ul id="mensualHabitsList" class="habits-list compact"></ul>
         </section>
@@ -96,7 +111,7 @@
         </section>
     </main>
 
-    <!-- MODAL: Afegir/Gestionar Hàbits -->
+    <!-- MODAL -->
     <div id="habitModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
@@ -104,7 +119,6 @@
                 <button id="closeModalBtn" class="close-btn">&times;</button>
             </div>
 
-            <!-- FORMULARIO HÁBITO -->
             <form id="habitForm" class="habit-form">
                 <input type="hidden" id="habitId">
                 
@@ -151,7 +165,6 @@
                 </div>
             </form>
 
-            <!-- GESTIÓN DE TIPOS -->
             <hr>
             <div class="types-section">
                 <h3>Gestionar Tipus de Hàbits</h3>
@@ -162,19 +175,16 @@
                 </div>
             </div>
 
-            <!-- LISTA DE HÁBITOS -->
             <hr>
             <h3>Hàbits Existents</h3>
             <ul id="habitsList" class="habits-list"></ul>
         </div>
     </div>
 
-    <!-- Scripts de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- Configuración de Firebase -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCkmAZGru2tN45I812Yo8AslQd-1pQleJo",
@@ -190,7 +200,6 @@
         const db = firebase.firestore();
     </script>
 
-    <!-- Lógica de la app -->
     <script src="app.js"></script>
 </body>
 </html>
