@@ -438,3 +438,88 @@ function renderHistoric() {
         const daysDiv = document.createElement("div");
         daysDiv.className = "days-grid";
         const [year, month] = monthKey.split("-
+        const daysDiv = document.createElement("div");
+        daysDiv.className = "days-grid";
+        const [year, month] = monthKey.split("-");
+        const daysInMonth = new Date(year, month, 0).getDate();
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${year}-${month}-${String(day).padStart(2, "0")}`;
+            const dayPercent = calculateDayPercent(dateStr);
+            const dayColor = getColorForPercent(dayPercent);
+
+            const dayDiv = document.createElement("div");
+            dayDiv.className = `day-cell ${dayColor}`;
+            dayDiv.innerHTML = `<small>${day}<br>${dayPercent}%</small>`;
+            daysDiv.appendChild(dayDiv);
+        }
+        monthDiv.appendChild(daysDiv);
+
+        // Semanal
+        const weeklySummary = document.createElement("div");
+        weeklySummary.className = `weekly-summary ${getColorForPercent(calculateWeeklyPercent(monthKey))}`;
+        weeklySummary.innerHTML = `<strong>Setmanal: ${calculateWeeklyPercent(monthKey)}%</strong>`;
+        monthDiv.appendChild(weeklySummary);
+
+        historicContent.appendChild(monthDiv);
+    });
+}
+
+// ==== FUNCIONES AUXILIARES ====
+function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+function capitalizar(text) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function formatMonth(monthKey) {
+    const [year, month] = monthKey.split("-");
+    const date = new Date(year, month - 1);
+    return new Intl.DateTimeFormat("ca-ES", { year: "numeric", month: "long" }).format(date);
+}
+
+function calculateDayPercent(dateStr) {
+    const activHabits = habits.filter((h) => h.active);
+    if (!activHabits.length) return 0;
+
+    const doneLogs = habitLogs.filter((log) => log.date === dateStr && log.done);
+    return Math.round((doneLogs.length / activHabits.length) * 100);
+}
+
+function calculateWeeklyPercent(monthKey) {
+    const [year, month] = monthKey.split("-");
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0);
+
+    let totalDone = 0;
+    let totalSlots = 0;
+
+    const activHabits = habits.filter((h) => h.active);
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const dateStr = d.toISOString().split("T")[0];
+        totalSlots += activHabits.length;
+        totalDone += habitLogs.filter((log) => log.date === dateStr && log.done).length;
+    }
+
+    return totalSlots > 0 ? Math.round((totalDone / totalSlots) * 100) : 0;
+}
+
+function calculateMonthPercent(monthKey) {
+    return calculateWeeklyPercent(monthKey);
+}
+
+function getColorForPercent(percent) {
+    if (percent >= 90) return "color-green";
+    if (percent >= 80) return "color-orange";
+    return "color-red";
+}
+
+// ==== INICIO ====
+document.addEventListener("DOMContentLoaded", () => {
+    if (!currentUser) {
+        loadFromLocal();
+    }
+    updateTypeSelect();
+});
