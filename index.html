@@ -1,220 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Habit Tracker Pro</title>
-
-  <!-- Estilos -->
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Habit Tracker Pro</title>
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="app-header">
-    <h1>Habit Tracker Pro</h1>
-    <div class="user-area">
-      <button id="loginBtn" class="btn btn-primary">Entrar con Google</button>
-      <button id="logoutBtn" class="btn btn-secondary hidden">Salir</button>
-      <span id="userEmail" class="user-email"></span>
-    </div>
-  </header>
-
-  <nav class="tabs">
-    <button class="tab-btn active" data-tab="todayTab">Hoy</button>
-    <button class="tab-btn" data-tab="habitsTab">Hábitos</button>
-    <button class="tab-btn" data-tab="historyTab">Historial</button>
-    <button class="tab-btn" data-tab="statsTab">Estadísticas</button>
-    
-  </nav>
-
-  <main class="tab-container">
-    <!-- HOY -->
-   <!-- HOY -->
-<section id="todayTab" class="tab-content active">
-  <header class="today-header">
-    <h2>Hoy</h2>
-    <input type="date" id="todayDate" />
-  </header>
-
-  <div id="todaySummary" class="summary-box">
-    <!-- Aquí pondremos % del día y por bloques -->
-  </div>
-
-   <!-- MAC: 5 COLUMNAS POR BLOQUE HORARIO -->
-  <div class="time-blocks-container mac-view">
-    <div class="time-block-column" data-block="allday">
-      <div class="block-header">Todo el día</div>
-      <ul id="habitsListAllday" class="list"><!-- JS rellena aquí --></ul>
-    </div>
-    <div class="time-block-column" data-block="morning">
-      <div class="block-header">Mañana</div>
-      <ul id="habitsListMorning" class="list"><!-- JS rellena aquí --></ul>
-    </div>
-    <div class="time-block-column" data-block="noon">
-      <div class="block-header">Medio día</div>
-      <ul id="habitsListNoon" class="list"><!-- JS rellena aquí --></ul>
-    </div>
-    <div class="time-block-column" data-block="evening">
-      <div class="block-header">Tarde</div>
-      <ul id="habitsListEvening" class="list"><!-- JS rellena aquí --></ul>
-    </div>
-    <div class="time-block-column" data-block="night">
-      <div class="block-header">Noche</div>
-      <ul id="habitsListNight" class="list"><!-- JS rellena aquí --></ul>
-    </div>
-  </div>
-
-
-  <!-- IPHONE: 4 TABS POR BLOQUE HORARIO -->
-    <nav class="time-blocks-tabs iphone-view">
-    <button class="time-tab-btn active" data-block="allday">Todo el día</button>
-    <button class="time-tab-btn" data-block="morning">Mañana</button>
-    <button class="time-tab-btn" data-block="noon">Medio día</button>
-    <button class="time-tab-btn" data-block="evening">Tarde</button>
-    <button class="time-tab-btn" data-block="night">Noche</button>
-  </nav>
-
-  <ul id="todayHabitsList" class="list iphone-view">
-    <!-- JS rellena aquí, filtrado por tab seleccionado -->
-  </ul>
-</section>
-
-    <!-- HÁBITOS -->
-    <section id="habitsTab" class="tab-content">
-      <header class="section-header">
-        <h2>Hábitos</h2>
-        <button id="addHabitBtn" class="btn btn-primary">Añadir hábito</button>
-      </header>
-
-      <form id="habitForm" class="card">
-        <input type="hidden" id="habitId" />
-        <label>
-          Nombre
-          <input type="text" id="habitName" placeholder="Nombre del hábito" required />
-        </label>
-        <label>
-          Tipo
-          <select id="habitType">
-            <option value="higiene">Higiene</option>
-            <option value="personal">Personal</option>
-            <option value="dieta">Dieta</option>
-            <option value="dormir">Dormir</option>
-            <option value="deporte">Deporte</option>
-            <option value="crecimiento">Crecimiento Personal</option>
-          </select>
-        </label>
-        <label>
-          Frecuencia
-          <select id="habitFrequency">
-            <option value="daily">Diaria</option>
-            <option value="weekly">Semanal</option>
-            <option value="monthly">Mensual</option>
-          </select>
-        </label>
-
-        <label id="monthlyDayLabel" class="hidden">
-  Día del mes
-  <input type="number" id="habitMonthlyDay" min="1" max="31" />
-</label>
-
-        <label>
-          Bloques del día
-          <div class="time-blocks-field">
-            <label class="inline full-day">
-              <input type="checkbox" id="habitAllDay" class="habitTimeBlock" value="allday" />
-              Todo el día
-            </label>
-            <label class="inline">
-              <input type="checkbox" class="habitTimeBlock" value="morning" />
-              Mañana
-            </label>
-            <label class="inline">
-              <input type="checkbox" class="habitTimeBlock" value="noon" />
-              Medio día
-            </label>
-            <label class="inline">
-              <input type="checkbox" class="habitTimeBlock" value="evening" />
-              Tarde
-            </label>
-            <label class="inline">
-              <input type="checkbox" class="habitTimeBlock" value="night" />
-              Noche
-            </label>
-          </div>
-        </label>
-
-
-        <label class="inline">
-          <input type="checkbox" id="habitActive" checked />
-          Activo
-        </label>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Guardar</button>
-          <button type="button" id="cancelHabitBtn" class="btn btn-secondary">Cancelar</button>
+    <header class="app-header">
+        <h1>Habit Tracker Pro</h1>
+        <div class="user-area">
+            <button id="loginBtn" class="btn btn-primary">Entrar con Google</button>
+            <button id="logoutBtn" class="btn btn-secondary hidden">Sortir</button>
+            <span id="userEmail" class="user-email"></span>
         </div>
-      </form>
+    </header>
 
-      <ul id="habitsList" class="list">
-        <!-- Lista de hábitos con editar/borrar -->
-      </ul>
-    </section>
+    <!-- NAVEGACIÓN: 8 PESTAÑAS -->
+    <nav class="tabs">
+        <button class="tab-btn active" data-tab="totElDiaTab">Tot el dia</button>
+        <button class="tab-btn" data-tab="matiTab">Mati</button>
+        <button class="tab-btn" data-tab="migDiaTab">Mig dia</button>
+        <button class="tab-btn" data-tab="tardaTab">Tarda</button>
+        <button class="tab-btn" data-tab="nitTab">Nit</button>
+        <button class="tab-btn" data-tab="setmanatTab">Setmanal</button>
+        <button class="tab-btn" data-tab="mensualTab">Mensual</button>
+        <button class="tab-btn" data-tab="historicTab">Historic</button>
+        <button id="manageHabitsBtn" class="btn btn-primary">Afegir/Gestionar Hàbits</button>
+    </nav>
 
-    <!-- HISTORIAL -->
-    <section id="historyTab" class="tab-content">
-      <header class="section-header">
-        <h2>Historial</h2>
-        <input type="month" id="historyMonth" />
-      </header>
+    <main class="tab-container">
+        <!-- PESTAÑA 1: Tot el dia -->
+        <section id="totElDiaTab" class="tab-content active">
+            <header class="section-header">
+                <h2>Tot el dia</h2>
+            </header>
+            <ul id="totElDiaHabitsList" class="habits-list compact"></ul>
+        </section>
 
-      <div id="historyList" class="list">
-        <!-- Aquí mostraremos días + hábitos hechos/no hechos de ese mes -->
-      </div>
-    </section>
+        <!-- PESTAÑA 2: Mati -->
+        <section id="matiTab" class="tab-content">
+            <header class="section-header">
+                <h2>Mati</h2>
+            </header>
+            <ul id="matiHabitsList" class="habits-list compact"></ul>
+        </section>
 
-    <!-- ESTADÍSTICAS -->
-    <section id="statsTab" class="tab-content">
-      <header class="section-header">
-        <h2>Estadísticas</h2>
-        <input type="month" id="statsMonth" />
-      </header>
+        <!-- PESTAÑA 3: Mig dia -->
+        <section id="migDiaTab" class="tab-content">
+            <header class="section-header">
+                <h2>Mig dia</h2>
+            </header>
+            <ul id="migDiaHabitsList" class="habits-list compact"></ul>
+        </section>
 
-      <div id="statsSummary" class="summary-box">
-        <!-- % globales del mes -->
-      </div>
+        <!-- PESTAÑA 4: Tarda -->
+        <section id="tardaTab" class="tab-content">
+            <header class="section-header">
+                <h2>Tarda</h2>
+            </header>
+            <ul id="tardaHabitsList" class="habits-list compact"></ul>
+        </section>
 
-      <div id="statsByDay" class="card">
-        <!-- % por día -->
-      </div>
+        <!-- PESTAÑA 5: Nit -->
+        <section id="nitTab" class="tab-content">
+            <header class="section-header">
+                <h2>Nit</h2>
+            </header>
+            <ul id="nitHabitsList" class="habits-list compact"></ul>
+        </section>
 
-      <div id="statsByTime" class="card">
-        <!-- % por bloque horario (mañana, medio día, tarde, noche) -->
-      </div>
-    </section>
-  </main>
+        <!-- PESTAÑA 6: Setmanal -->
+        <section id="setmanatTab" class="tab-content">
+            <header class="section-header">
+                <h2>Setmanal</h2>
+            </header>
+            <ul id="setmanatHabitsList" class="habits-list compact"></ul>
+        </section>
 
-  <!-- Scripts de Firebase (como en tu Expense Tracker Pro) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+        <!-- PESTAÑA 7: Mensual -->
+        <section id="mensualTab" class="tab-content">
+            <header class="section-header">
+                <h2>Mensual</h2>
+            </header>
+            <ul id="mensualHabitsList" class="habits-list compact"></ul>
+        </section>
 
-  <!-- Configuración de Firebase (rellenar con tus datos) -->
-  <<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCkmAZGru2tN45I812Yo8AslQd-1pQleJo",
-    authDomain: "eddy-expense-tracker-pro-app.firebaseapp.com",
-    projectId: "eddy-expense-tracker-pro-app",
-    storageBucket: "eddy-expense-tracker-pro-app.firebasestorage.app",
-    messagingSenderId: "801394894034",
-    appId: "1:801394894034:web:1d0c1ca71f85f9674ab90b",
-    measurementId: "G-B9SW45RKT3"
-  };
+        <!-- PESTAÑA 8: Historic -->
+        <section id="historicTab" class="tab-content">
+            <header class="section-header">
+                <h2>Historic</h2>
+            </header>
+            <div id="historicContent" class="historic-content"></div>
+        </section>
+    </main>
 
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
+    <!-- MODAL: Afegir/Gestionar Hàbits -->
+    <div id="habitModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Afegir/Gestionar Hàbits</h2>
+                <button id="closeModalBtn" class="close-btn">&times;</button>
+            </div>
 
+            <!-- FORMULARIO HÁBITO -->
+            <form id="habitForm" class="habit-form">
+                <input type="hidden" id="habitId">
+                
+                <div class="form-group">
+                    <label>Nom del hàbit</label>
+                    <input type="text" id="habitName" placeholder="Exemple: Meditació" required>
+                </div>
 
-  <!-- Lógica de la app -->
-  <script src="app.js"></script>
+                <div class="form-group">
+                    <label>Tipus</label>
+                    <select id="habitType" required>
+                        <option value="higiene">Higiene</option>
+                        <option value="personal">Personal</option>
+                        <option value="dieta">Dieta</option>
+                        <option value="dormir">Dormir</option>
+                        <option value="deporte">Deporte</option>
+                        <option value="crecimiento">Creixement Personal</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Freqüència</label>
+                    <select id="habitFrequency" required>
+                        <option value="allday">Tot el dia</option>
+                        <option value="morning">Mati</option>
+                        <option value="noon">Mig dia</option>
+                        <option value="evening">Tarda</option>
+                        <option value="night">Nit</option>
+                        <option value="weekly">Setmanal</option>
+                        <option value="monthly">Mensual</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="habitActive" checked>
+                        Actiu
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" id="cancelHabitBtn" class="btn btn-secondary">Cancelar</button>
+                </div>
+            </form>
+
+            <!-- GESTIÓN DE TIPOS -->
+            <hr>
+            <div class="types-section">
+                <h3>Gestionar Tipus de Hàbits</h3>
+                <div id="typesList" class="types-list"></div>
+                <div class="form-group">
+                    <input type="text" id="newTypeName" placeholder="Nou tipus...">
+                    <button type="button" id="addTypeBtn" class="btn btn-primary">Afegir Tipus</button>
+                </div>
+            </div>
+
+            <!-- LISTA DE HÁBITOS -->
+            <hr>
+            <h3>Hàbits Existents</h3>
+            <ul id="habitsList" class="habits-list"></ul>
+        </div>
+    </div>
+
+    <!-- Scripts de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Configuración de Firebase -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkmAZGru2tN45I812Yo8AslQd-1pQleJo",
+            authDomain: "eddy-expense-tracker-pro-app.firebaseapp.com",
+            projectId: "eddy-expense-tracker-pro-app",
+            storageBucket: "eddy-expense-tracker-pro-app.firebasestorage.app",
+            messagingSenderId: "801394894034",
+            appId: "1:801394894034:web:1d0c1ca71f85f9674ab90b",
+            measurementId: "G-B9SW45RKT3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
+    <!-- Lógica de la app -->
+    <script src="app.js"></script>
 </body>
 </html>
