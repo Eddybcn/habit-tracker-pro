@@ -1,4 +1,4 @@
-// app.js - HABIT TRACKER PRO (CATALÁN) - CON NAVEGACIÓN DE FECHA/SEMANA/MES
+// app.js - HABIT TRACKER PRO (CATALÁN) - VERSIÓN FINAL
 
 let currentUser = null;
 let habits = [];
@@ -9,6 +9,19 @@ const LS_KEY = "habit-tracker-pro-data-v1";
 let selectedDate = getTodayISO();
 let selectedWeekStart = getWeekStart(new Date());
 let selectedMonth = new Date();
+
+// ==== UTILIDADES DE FECHA ====
+function getTodayISO() {
+    const d = new Date();
+    return d.toISOString().split("T")[0];
+}
+
+function getWeekStart(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff));
+}
 
 // ==== REFERENCIAS AL DOM ====
 const tabButtons = document.querySelectorAll(".tab-btn");
@@ -63,17 +76,17 @@ function switchTab(targetId) {
     if (activeBtn) activeBtn.classList.add("active");
     if (activeContent) activeContent.classList.add("active");
 
-    // Mostrar/ocultar controles de fecha según la pestaña
     const isFiveFirstTabs = ['totElDiaTab', 'matiTab', 'migDiaTab', 'tardaTab', 'nitTab'].includes(targetId);
-    dateControls.style.display = isFiveFirstTabs ? 'flex' : 'none';
+    if (dateControls) {
+        dateControls.style.display = isFiveFirstTabs ? 'flex' : 'none';
+    }
 
-    // Renderizar contenido según pestaña
     if (targetId === "historicTab") {
         renderHistoric();
-    } else if (['setmanatTab'].includes(targetId)) {
+    } else if (targetId === "setmanatTab") {
         updateWeekDisplay();
         renderTabByFrequency(targetId);
-    } else if (['mensualTab'].includes(targetId)) {
+    } else if (targetId === "mensualTab") {
         updateMonthDisplay();
         renderTabByFrequency(targetId);
     } else {
@@ -82,76 +95,78 @@ function switchTab(targetId) {
 }
 
 // ==== CONTROLES DE FECHA ====
-todayBtn.addEventListener("click", () => {
-    selectedDate = getTodayISO();
-    dateSelector.value = selectedDate;
-    updateDateDisplay();
-    renderAllDayTabs();
-});
+if (todayBtn) {
+    todayBtn.addEventListener("click", () => {
+        selectedDate = getTodayISO();
+        dateSelector.value = selectedDate;
+        updateDateDisplay();
+        renderAllDayTabs();
+    });
+}
 
-dateSelector.addEventListener("change", () => {
-    selectedDate = dateSelector.value;
-    updateDateDisplay();
-    renderAllDayTabs();
-});
+if (dateSelector) {
+    dateSelector.addEventListener("change", () => {
+        selectedDate = dateSelector.value;
+        updateDateDisplay();
+        renderAllDayTabs();
+    });
+}
 
 function updateDateDisplay() {
-    const date = new Date(selectedDate);
+    if (!selectedDateDisplay) return;
+    const date = new Date(selectedDate + 'T00:00:00');
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     selectedDateDisplay.textContent = date.toLocaleDateString('ca-ES', options);
 }
 
 // ==== CONTROLES DE SEMANA ====
-prevWeekBtn.addEventListener("click", () => {
-    selectedWeekStart.setDate(selectedWeekStart.getDate() - 7);
-    updateWeekDisplay();
-    renderTabByFrequency("setmanatTab");
-});
+if (prevWeekBtn) {
+    prevWeekBtn.addEventListener("click", () => {
+        selectedWeekStart.setDate(selectedWeekStart.getDate() - 7);
+        updateWeekDisplay();
+        renderTabByFrequency("setmanatTab");
+    });
+}
 
-nextWeekBtn.addEventListener("click", () => {
-    selectedWeekStart.setDate(selectedWeekStart.getDate() + 7);
-    updateWeekDisplay();
-    renderTabByFrequency("setmanatTab");
-});
+if (nextWeekBtn) {
+    nextWeekBtn.addEventListener("click", () => {
+        selectedWeekStart.setDate(selectedWeekStart.getDate() + 7);
+        updateWeekDisplay();
+        renderTabByFrequency("setmanatTab");
+    });
+}
 
 function updateWeekDisplay() {
+    if (!weekDisplay) return;
     const weekEnd = new Date(selectedWeekStart);
     weekEnd.setDate(weekEnd.getDate() + 6);
-    const options = { month: 'short', day: 'numeric' };
+    const options = { day: 'numeric', month: 'short' };
     const startStr = selectedWeekStart.toLocaleDateString('ca-ES', options);
     const endStr = weekEnd.toLocaleDateString('ca-ES', options);
     weekDisplay.textContent = `${startStr} - ${endStr}`;
 }
 
 // ==== CONTROLES DE MES ====
-prevMonthBtn.addEventListener("click", () => {
-    selectedMonth.setMonth(selectedMonth.getMonth() - 1);
-    updateMonthDisplay();
-    renderTabByFrequency("mensualTab");
-});
+if (prevMonthBtn) {
+    prevMonthBtn.addEventListener("click", () => {
+        selectedMonth.setMonth(selectedMonth.getMonth() - 1);
+        updateMonthDisplay();
+        renderTabByFrequency("mensualTab");
+    });
+}
 
-nextMonthBtn.addEventListener("click", () => {
-    selectedMonth.setMonth(selectedMonth.getMonth() + 1);
-    updateMonthDisplay();
-    renderTabByFrequency("mensualTab");
-});
+if (nextMonthBtn) {
+    nextMonthBtn.addEventListener("click", () => {
+        selectedMonth.setMonth(selectedMonth.getMonth() + 1);
+        updateMonthDisplay();
+        renderTabByFrequency("mensualTab");
+    });
+}
 
 function updateMonthDisplay() {
+    if (!monthDisplay) return;
     const options = { month: 'long', year: 'numeric' };
     monthDisplay.textContent = selectedMonth.toLocaleDateString('ca-ES', options);
-}
-
-// ==== UTILIDADES DE FECHA ====
-function getTodayISO() {
-    const d = new Date();
-    return d.toISOString().split("T")[0];
-}
-
-function getWeekStart(date) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(d.setDate(diff));
 }
 
 // ==== LOGIN / LOGOUT ====
@@ -198,10 +213,7 @@ if (typeof firebase !== "undefined") {
                     habitLogs = [];
                     saveToLocal();
                 }
-                renderAllTabs();
-                updateDateDisplay();
-                updateWeekDisplay();
-                updateMonthDisplay();
+                initializeApp();
             })
             .catch((err) => {
                 console.error("Error cargando de Firestore:", err);
@@ -237,10 +249,7 @@ function loadFromLocal() {
         habits = [];
         habitLogs = [];
     } finally {
-        renderAllTabs();
-        updateDateDisplay();
-        updateWeekDisplay();
-        updateMonthDisplay();
+        initializeApp();
     }
 }
 
@@ -254,6 +263,14 @@ function saveData() {
     if (typeof saveToCloud === "function") {
         saveToCloud();
     }
+}
+
+function initializeApp() {
+    renderAllTabs();
+    updateDateDisplay();
+    updateWeekDisplay();
+    updateMonthDisplay();
+    updateTypeSelect();
 }
 
 // ==== UI DE USUARIO ====
@@ -270,25 +287,34 @@ function updateUserUI() {
 }
 
 // ==== MODAL ====
-manageHabitsBtn.addEventListener("click", () => {
-    openHabitModal();
-});
+if (manageHabitsBtn) {
+    manageHabitsBtn.addEventListener("click", () => {
+        openHabitModal();
+    });
+}
 
-closeModalBtn.addEventListener("click", () => {
-    closeHabitModal();
-});
-
-habitModal.addEventListener("click", (e) => {
-    if (e.target === habitModal) {
+if (closeModalBtn) {
+    closeModalBtn.addEventListener("click", () => {
         closeHabitModal();
-    }
-});
+    });
+}
 
-cancelHabitBtn.addEventListener("click", () => {
-    closeHabitModal();
-});
+if (habitModal) {
+    habitModal.addEventListener("click", (e) => {
+        if (e.target === habitModal) {
+            closeHabitModal();
+        }
+    });
+}
+
+if (cancelHabitBtn) {
+    cancelHabitBtn.addEventListener("click", () => {
+        closeHabitModal();
+    });
+}
 
 function openHabitModal(habit = null) {
+    if (!habitModal) return;
     habitModal.classList.remove("hidden");
     renderHabitsList();
     renderTypesList();
@@ -307,46 +333,50 @@ function openHabitModal(habit = null) {
         habitActiveCheckbox.checked = true;
     }
     
-    habitNameInput.focus();
+    if (habitNameInput) habitNameInput.focus();
 }
 
 function closeHabitModal() {
+    if (!habitModal) return;
     habitModal.classList.add("hidden");
-    habitForm.reset();
+    if (habitForm) habitForm.reset();
 }
 
 // ==== FORMULARIO HÁBITO ====
-habitForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const id = habitIdInput.value || generateId();
-    const name = habitNameInput.value.trim();
-    if (!name) {
-        alert("El nom del hàbit és obligatori");
-        return;
-    }
+if (habitForm) {
+    habitForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const id = habitIdInput.value || generateId();
+        const name = habitNameInput.value.trim();
+        if (!name) {
+            alert("El nom del hàbit és obligatori");
+            return;
+        }
 
-    const habitData = {
-        id,
-        name,
-        type: habitTypeSelect.value,
-        frequency: habitFrequencySelect.value,
-        active: habitActiveCheckbox.checked,
-    };
+        const habitData = {
+            id,
+            name,
+            type: habitTypeSelect.value,
+            frequency: habitFrequencySelect.value,
+            active: habitActiveCheckbox.checked,
+        };
 
-    const existingIndex = habits.findIndex((h) => h.id === id);
-    if (existingIndex >= 0) {
-        habits[existingIndex] = habitData;
-    } else {
-        habits.push(habitData);
-    }
+        const existingIndex = habits.findIndex((h) => h.id === id);
+        if (existingIndex >= 0) {
+            habits[existingIndex] = habitData;
+        } else {
+            habits.push(habitData);
+        }
 
-    saveData();
-    renderAllTabs();
-    closeHabitModal();
-});
+        saveData();
+        renderAllTabs();
+        closeHabitModal();
+    });
+}
 
 // ==== RENDERIZAR LISTA DE HÁBITOS EN MODAL ====
 function renderHabitsList() {
+    if (!habitsList) return;
     habitsList.innerHTML = "";
     if (!habits.length) {
         habitsList.innerHTML = '<li class="empty-message">No hi ha hàbits creats</li>';
@@ -389,40 +419,48 @@ function renderHabitsList() {
 }
 
 // ==== GESTIÓN DE TIPOS ====
-addTypeBtn.addEventListener("click", () => {
-    const typeName = newTypeNameInput.value.trim().toLowerCase();
-    if (typeName && !habitTypes.includes(typeName)) {
-        habitTypes.push(typeName);
-        saveData();
-        newTypeNameInput.value = "";
-        renderTypesList();
-        updateTypeSelect();
-    }
-});
+if (addTypeBtn) {
+    addTypeBtn.addEventListener("click", () => {
+        const typeName = newTypeNameInput.value.trim().toLowerCase();
+        if (typeName && !habitTypes.includes(typeName)) {
+            habitTypes.push(typeName);
+            habitTypes.sort();
+            saveData();
+            newTypeNameInput.value = "";
+            renderTypesList();
+            updateTypeSelect();
+        }
+    });
+}
 
 function renderTypesList() {
+    if (!typesList) return;
     typesList.innerHTML = "";
     habitTypes.forEach((type) => {
         const div = document.createElement("div");
         div.className = "type-item";
         div.innerHTML = `
             <span>${capitalizar(type)}</span>
-            <button class="delete-type-btn" data-type="${type}">✕</button>
+            <button class="delete-type-
+btn" data-type="${type}">✕</button>
         `;
         typesList.appendChild(div);
     });
 
     document.querySelectorAll(".delete-type-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
-            habitTypes = habitTypes.filter((t) => t !== btn.dataset.type);
-            saveData();
-            renderTypesList();
-            updateTypeSelect();
+            if (confirm("¿Borrar aquest tipus?")) {
+                habitTypes = habitTypes.filter((t) => t !== btn.dataset.type);
+                saveData();
+                renderTypesList();
+                updateTypeSelect();
+            }
         });
     });
 }
 
 function updateTypeSelect() {
+    if (!habitTypeSelect) return;
     const currentValue = habitTypeSelect.value;
     habitTypeSelect.innerHTML = "";
     habitTypes.forEach((type) => {
@@ -432,8 +470,8 @@ function updateTypeSelect() {
         habitTypeSelect.appendChild(option);
     });
     if (habitTypes.includes(currentValue)) {
-        habitTypeSelect.value =
-currentValue;
+        habitTypeSelect.value = currentValue;
+    }
 }
 
 // ==== RENDERIZACIÓN POR PESTAÑAS ====
@@ -472,24 +510,15 @@ function renderTabByFrequency(tabId) {
 
     if (!listElement) return;
 
-    let habitsToShow = [];
-
-    if (frequency === "weekly") {
-        habitsToShow = habits.filter((h) => h.active && h.frequency === "weekly");
-    } else if (frequency === "monthly") {
-        habitsToShow = habits.filter((h) => h.active && h.frequency === "monthly");
-    } else {
-        habitsToShow = habits.filter((h) => h.active && h.frequency === frequency);
-    }
-
-    if (!habitsToShow.length) {
+    const habitsInFreq = habits.filter((h) => h.active && h.frequency === frequency);
+    
+    if (!habitsInFreq.length) {
         listElement.innerHTML = '<li class="empty-message">No hi ha hàbits per a aquesta freqüència</li>';
         return;
     }
 
-    // Agrupar por tipo alfabéticamente
     const byType = {};
-    habitsToShow.forEach((h) => {
+    habitsInFreq.forEach((h) => {
         const type = h.type || "personal";
         if (!byType[type]) byType[type] = [];
         byType[type].push(h);
@@ -506,7 +535,6 @@ function renderTabByFrequency(tabId) {
             const li = document.createElement("li");
             li.className = "compact-habit-item";
             
-            // Determinar si está hecho (solo para las 5 primeras pestañas)
             let isDone = false;
             if (['totElDiaTab', 'matiTab', 'migDiaTab', 'tardaTab', 'nitTab'].includes(tabId)) {
                 isDone = isHabitDoneAt(habit.id, selectedDate, frequency);
@@ -515,7 +543,7 @@ function renderTabByFrequency(tabId) {
             li.innerHTML = `
                 <div class="habit-name">${habit.name}</div>
                 <div class="habit-controls">
-                    <button class="mark-habit-btn ${isDone ? 'done' : ''}" data-id="${habit.id}">✓</button>
+                    <button class="mark-habit-btn ${isDone ? 'done' : ''}" data-id="${habit.id}" data-freq="${frequency}">✓</button>
                 </div>
             `;
             listElement.appendChild(li);
@@ -525,7 +553,8 @@ function renderTabByFrequency(tabId) {
     document.querySelectorAll(".mark-habit-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
             const habitId = btn.dataset.id;
-            markHabitAsDone(habitId, selectedDate, frequency);
+            const freq = btn.dataset.freq;
+            markHabitAsDone(habitId, selectedDate, freq);
             renderTabByFrequency(tabId);
         });
     });
@@ -550,7 +579,8 @@ function isHabitDoneAt(habitId, date, frequency) {
 // ==== HISTORIC ====
 function renderHistoric() {
     const historicContent = document.getElementById("historicContent");
-    historicContent.innerHTML = "<p>Dades històriques - Funcionalitat en desenvolupament</p>";
+    if (!historicContent) return;
+    historicContent.innerHTML = "<p style='padding: 1rem; color: #94a3b8;'>Dades històriques - Funcionalitat en desenvolupament</p>";
 }
 
 // ==== FUNCIONES AUXILIARES ====
@@ -559,12 +589,13 @@ function generateId() {
 }
 
 function capitalizar(text) {
+    if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 // ==== INICIALIZACIÓN ====
 document.addEventListener("DOMContentLoaded", () => {
-    dateSelector.value = getTodayISO();
+    if (dateSelector) dateSelector.value = getTodayISO();
     updateDateDisplay();
     updateWeekDisplay();
     updateMonthDisplay();
@@ -572,13 +603,5 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!currentUser) {
         loadFromLocal();
     }
-    updateTypeSelect();
-});
-
-window.addEventListener("load", () => {
-    if (!currentUser) {
-        loadFromLocal();
-    }
-    renderAllTabs();
     updateTypeSelect();
 });
