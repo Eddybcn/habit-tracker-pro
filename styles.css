@@ -540,3 +540,50 @@ body {
     .date-controls {
         padding: 0.3rem;
         gap: 0.3rem
+    }
+
+    .date-input {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.4rem;
+    }
+
+    .date-display {
+        font-size: 0.75rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .type-header {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 0.8rem;
+    }
+
+    .week-controls, .month-controls {
+        gap: 0.3rem;
+    }
+
+    .week-display, .month-display {
+        font-size: 0.8rem;
+        min-width: 120px;
+    }
+}
+
+/* Estilos adicionales */
+hr {
+    border: none;
+    border-top: 1px solid #334155;
+    margin: 1rem 0;
+}
+
+.types-section h3,
+.modal-content h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
