@@ -1,0 +1,539 @@
+/* ==== COMPACTO EXTREMO ==== */
+
+:root {
+  --bg: #0a0e27;
+  --bg-dark: #000000;
+  --text: #e5e7eb;
+  --text-muted: #8b8b8b;
+  --border: #1f2937;
+  --primary: #3b82f6;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ==== LAYOUT PRINCIPAL ==== */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.app-header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+
+.user-email {
+  color: var(--text-muted);
+}
+
+/* ==== TABS NAVEGACIÓN ==== */
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 6px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.15s;
+}
+
+.tab-btn.active {
+  background: var(--bg);
+  color: var(--text);
+  border-bottom: 2px solid var(--primary);
+}
+
+.tab-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* ==== CONTENEDOR PRINCIPAL ==== */
+.tab-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tab-content {
+  flex: 1;
+  padding: 8px;
+  overflow-y: auto;
+  display: none;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==== LISTAS ==== */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(31, 41, 55, 0.6);
+  border: 1px solid var(--border);
+  gap: 8px;
+}
+
+.list-item-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.list-item-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.list-item-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.list-item-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+/* ==== BOTONES ==== */
+.btn {
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+
+.btn.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn.btn-secondary {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 10px;
+  padding: 2px 4px;
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.btn-danger {
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ==== FORMULARIO HÁBITO ==== */
+#habitForm {
+  background: rgba(31, 41, 55, 0.8);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  padding: 8px;
+  margin-bottom: 8px;
+  display: none;
+}
+
+#habitForm.visible {
+  display: block;
+}
+
+#habitForm label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  margin-top: 4px;
+}
+
+#habitForm label:first-child {
+  margin-top: 0;
+}
+
+#habitForm input[type="text"],
+#habitForm input[type="number"],
+#habitForm select {
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 11px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+#habitForm input[type="text"]:focus,
+#habitForm input[type="number"]:focus,
+#habitForm select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.time-blocks-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin-bottom: 4px;
+}
+
+.time-blocks-field label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin: 0;
+  font-size: 10px;
+}
+
+.time-blocks-field input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.form-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.form-actions button {
+  flex: 1;
+  padding: 4px 6px;
+  font-size: 11px;
+}
+
+/* ==== BLOQUES HORARIOS (HOY) ==== */
+.time-btn {
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-muted);
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.time-btn:hover {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.time-btn.done {
+  background: var(--success);
+  border-color: var(--success);
+  color: #022c22;
+  font-weight: 500;
+}
+
+/* ==== ESTADÍSTICAS ==== */
+.stats-row {
+  padding: 4px 0;
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.stats-row strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+}
+
+.stats-bar {
+  height: 8px;
+  background: rgba(31, 41, 55, 0.8);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.stats-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+
+/* ==== INPUTS FECHA ==== */
+input[type="date"],
+input[type="month"] {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+input[type="date"]:focus,
+input[type="month"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ==== HOY - HEADER ==== */
+.today-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0 4px 0;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.today-header h2 {
+  font-size: 12px;
+  margin: 0;
+}
+
+/* ==== SECCION HÁBITOS ==== */
+.habit-section {
+  margin-bottom: 8px;
+}
+
+.habit-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 6px 0 3px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==== SCROLLBARS ==== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+/* ==== RESPONSIVO ==== */
+@media (max-width: 768px) {
+  body {
+    font-size: 12px;
+  }
+
+  .app-header h1 {
+    font-size: 14px;
+  }
+
+  .tab-btn {
+    font-size: 10px;
+    padding: 5px 6px;
+  }
+
+  .list-item {
+    padding: 5px 6px;
+  }
+
+  .btn {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
+
+/* ==== UTILIDADES ==== */
+.hidden {
+  display: none !important;
+}
+
+.card {
+  background: rgba(31, 41, 55, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.inline {
+  display: inline;
+}
+/* ==== HOY: 4 COLUMNAS (MAC) vs TABS (IPHONE) ==== */
+
+.time-blocks-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.time-block-column {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.block-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.block-header:first-letter {
+  text-transform: uppercase;
+}
+
+/* IPHONE: Oculta columnas, muestra tabs */
+@media (max-width: 768px) {
+  .time-blocks-container.mac-view {
+    display: none;
+  }
+
+  .time-blocks-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+
+  .time-tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 4px 6px;
+    font-size: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .time-tab-btn.active {
+    color: var(--text);
+    border-bottom-color: var(--primary);
+  }
+
+  .time-tab-btn:hover {
+    color: var(--text);
+  }
+
+  #todayHabitsList.iphone-view {
+    display: block;
+  }
+}
+
+/* MAC: Oculta tabs, muestra columnas */
+@media (min-width: 769px) {
+  .time-blocks-tabs.iphone-view {
+    display: none;
+  }
+
+  #todayHabitsList.iphone-view {
+    display: none;
+  }
+}
+.time-blocks-field .full-day {
+  display: block;
+  margin-bottom: 6px;
+  padding: 4px 0;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.time-blocks-field .inline {
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: 4px;
+}
+
