@@ -5,35 +5,36 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #0f172a;
     color: #e2e8f0;
-    line-height: 1.6;
+    line-height: 1.4;
+    font-size: 14px;
 }
 
-/* HEADER */
+/* HEADER - MUY COMPACTO */
 .app-header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    padding: 1rem 2rem;
-    border-bottom: 2px solid #334155;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #334155;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .app-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #06b6d4;
 }
 
 .user-area {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: center;
 }
 
 .user-email {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #94a3b8;
 }
 
@@ -41,14 +42,20 @@ body {
     display: none !important;
 }
 
-/* BOTONES */
+/* BOTONES COMPACTOS */
 .btn {
-    padding: 0.6rem 1.2rem;
+    padding: 0.4rem 0.8rem;
     border: none;
-    border-radius: 0.4rem;
+    border-radius: 0.3rem;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     transition: all 0.2s;
+    font-weight: 500;
+}
+
+.btn-small {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
 }
 
 .btn-primary {
@@ -59,7 +66,6 @@ body {
 
 .btn-primary:hover {
     background: #0891b2;
-    transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -71,26 +77,27 @@ body {
     background: #475569;
 }
 
-/* NAVEGACIÓN TABS */
+/* NAVEGACIÓN TABS - COMPACTA */
 .tabs {
     background: #1e293b;
-    padding: 1rem;
+    padding: 0.4rem 0.5rem;
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
     overflow-x: auto;
     border-bottom: 1px solid #334155;
     flex-wrap: wrap;
 }
 
 .tab-btn {
-    padding: 0.6rem 1rem;
+    padding: 0.4rem 0.7rem;
     background: #334155;
     color: #cbd5e1;
     border: none;
-    border-radius: 0.4rem;
+    border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
+    font-size: 0.85rem;
 }
 
 .tab-btn.active {
@@ -103,11 +110,10 @@ body {
     background: #475569;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* CONTENEDOR PRINCIPAL - COMPACTO */
 .tab-container {
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    padding: 0.5rem;
+    max-width: 100%;
 }
 
 .tab-content {
@@ -118,46 +124,90 @@ body {
     display: block;
 }
 
-/* SECCIÓN HEADER */
+/* CONTROLES DE FECHA - COMPACTOS */
+.date-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: #1e293b;
+    border-radius: 0.3rem;
+}
+
+.date-input {
+    padding: 0.3rem 0.5rem;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 0.3rem;
+    color: #e2e8f0;
+    font-size: 0.85rem;
+}
+
+.date-display {
+    color: #06b6d4;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* CONTROLES SEMANA/MES */
+.week-controls, .month-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.week-display, .month-display {
+    color: #06b6d4;
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 150px;
+    text-align: center;
+}
+
+/* SECCIÓN HEADER - COMPACTA */
 .section-header {
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid #334155;
-    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 0.5rem;
 }
 
 .section-header h2 {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     color: #06b6d4;
 }
 
-/* LISTA DE HÁBITOS COMPACTA */
+/* LISTA DE HÁBITOS - MUY COMPACTA */
 .habits-list {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.4rem;
 }
 
 .habits-list.compact {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
 
 .type-header {
     grid-column: 1 / -1;
     background: #334155;
-    padding: 0.8rem 1rem;
+    padding: 0.4rem 0.6rem;
     font-weight: 600;
+    font-size: 0.85rem;
     color: #06b6d4;
-    border-left: 3px solid #06b6d4;
-    margin-top: 1rem;
+    border-left: 2px solid #06b6d4;
+    margin-top: 0.5rem;
     list-style: none;
 }
 
 .compact-habit-item {
     background: #1e293b;
     border: 1px solid #334155;
-    border-radius: 0.4rem;
-    padding: 0.8rem;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -173,46 +223,58 @@ body {
 .habit-name {
     font-weight: 500;
     color: #e2e8f0;
+    font-size: 0.9rem;
 }
 
 .habit-controls {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .mark-habit-btn {
-    background: #10b981;
+    background: #475569;
     color: white;
     border: none;
     border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
+    width: 1.8rem;
+    height: 1.8rem;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.2s;
+    font-size: 1rem;
 }
 
 .mark-habit-btn:hover {
+    background: #64748b;
+    transform: scale(1.05);
+}
+
+.mark-habit-btn.done {
+    background: #10b981;
+    color: white;
+}
+
+.mark-habit-btn.done:hover {
     background: #059669;
-    transform: scale(1.1);
 }
 
 .empty-message {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
     color: #94a3b8;
     list-style: none;
+    font-size: 0.9rem;
 }
 
-/* MODAL */
+/* MODAL - COMPACTO */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -226,45 +288,48 @@ body {
 .modal-content {
     background: #1e293b;
     border: 1px solid #334155;
-    border-radius: 0.8rem;
-    padding: 2rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
     max-width: 500px;
-    max-height: 90vh;
+    width: 90%;
+    max-height: 85vh;
     overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     border-bottom: 1px solid #334155;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
 }
 
 .modal-header h2 {
     color: #06b6d4;
+    font-size: 1.2rem;
 }
 
 .close-btn {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #94a3b8;
     cursor: pointer;
     transition: color 0.2s;
+    line-height: 1;
 }
 
 .close-btn:hover {
     color: #06b6d4;
 }
 
-/* FORMULARIO */
+/* FORMULARIO - COMPACTO */
 .habit-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.7rem;
 }
 
 .form-group {
@@ -273,71 +338,74 @@ body {
 }
 
 .form-group label {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     color: #cbd5e1;
     font-weight: 500;
+    font-size: 0.85rem;
 }
 
 .form-group input,
 .form-group select {
-    padding: 0.7rem;
+    padding: 0.5rem;
     background: #0f172a;
     border: 1px solid #334155;
-    border-radius: 0.4rem;
+    border-radius: 0.3rem;
     color: #e2e8f0;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
     border-color: #06b6d4;
-    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
 }
 
 .form-group input[type="checkbox"] {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 1.1rem;
+    height: 1.1rem;
     cursor: pointer;
 }
 
 .form-actions {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .form-actions button {
     flex: 1;
 }
 
-/* GESTIÓN DE TIPOS */
+/* GESTIÓN DE TIPOS - COMPACTO */
 .types-section {
-    margin-top: 2rem;
-    padding-top: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid #334155;
 }
 
 .types-section h3 {
     color: #06b6d4;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
 }
 
 .types-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .type-item {
     background: #334155;
-    padding: 0.5rem 1rem;
-    border-radius: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     color: #cbd5e1;
+    font-size: 0.85rem;
 }
 
 .delete-type-btn {
@@ -345,53 +413,54 @@ body {
     color: white;
     border: none;
     border-radius: 50%;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     transition: background 0.2s;
+    line-height: 1;
 }
 
 .delete-type-btn:hover {
     background: #dc2626;
 }
 
-/* LISTA DE HÁBITOS EN MODAL */
+/* LISTA DE HÁBITOS EN MODAL - COMPACTO */
 .habit-item {
     background: #0f172a;
     border: 1px solid #334155;
-    padding: 1rem;
-    border-radius: 0.4rem;
+    padding: 0.6rem;
+    border-radius: 0.3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     list-style: none;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
 
 .habit-info {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.2rem;
 }
 
 .habit-info small {
     color: #94a3b8;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
 }
 
 .habit-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.3rem;
 }
 
 .edit-habit-btn,
 .delete-habit-btn {
-    padding: 0.4rem 0.8rem;
+    padding: 0.3rem 0.6rem;
     border: none;
     border-radius: 0.3rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     transition: all 0.2s;
 }
 
@@ -414,110 +483,60 @@ body {
     background: #dc2626;
 }
 
-/* HISTORIC */
+/* HISTORIC - COMPACTO */
 .historic-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    padding: 0.5rem;
+    color: #94a3b8;
 }
 
-.historic-month {
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 0.6rem;
-    padding: 1.5rem;
-}
-
-.historic-month h3 {
-    color: #06b6d4;
-    margin-bottom: 1rem;
-}
-
-.month-summary {
-    padding: 1rem;
-    border-radius: 0.4rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    text-align: center;
-}
-
-.weekly-summary {
-    padding: 1rem;
-    border-radius: 0.4rem;
-    font-weight: 600;
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.days-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.day-cell {
-    aspect-ratio: 1;
-    border-radius: 0.4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.day-cell:hover {
-    transform: scale(1.1);
-}
-
-/* COLORES PARA PORCENTAJES */
-.color-red {
-    background: #7f1d1d;
-    color: #fecaca;
-    border: 1px solid #dc2626;
-}
-
-.color-orange {
-    background: #7c2d12;
-    color: #fed7aa;
-    border: 1px solid #ea580c;
-}
-
-.color-green {
-    background: #15803d;
-    color: #bbf7d0;
-    border: 1px solid #22c55e;
-}
-
-/* RESPONSIVE */
+/* RESPONSIVE - ULTRA COMPACTO EN MÓVIL */
 @media (max-width: 768px) {
+    body {
+        font-size: 13px;
+    }
+
     .app-header {
-        flex-direction: column;
-        gap: 1rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .app-header h1 {
+        font-size: 1rem;
     }
 
     .tabs {
-        flex-direction: column;
+        padding: 0.3rem;
+        gap: 0.2rem;
     }
 
     .tab-btn {
-        width: 100%;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .tab-container {
+        padding: 0.3rem;
     }
 
     .habits-list,
     .habits-list.compact {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 0.3rem;
     }
 
-    .modal-content {
-        width: 90%;
-        max-height: 95vh;
+    .compact-habit-item {
+        padding: 0.4rem;
     }
 
-    .days-grid {
-        grid-template-columns: repeat(7, 1fr);
+    .habit-name {
+        font-size: 0.8rem;
     }
-}
+
+    .mark-habit-btn {
+        width: 1.5rem;
+        height: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .date-controls {
+        padding: 0.3rem;
+        gap: 0.3rem
