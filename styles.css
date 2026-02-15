@@ -12,6 +12,7 @@ body {
     font-size: 14px;
 }
 
+/* HEADER */
 .app-header {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     padding: 0.5rem 1rem;
@@ -41,6 +42,7 @@ body {
     display: none !important;
 }
 
+/* BOTONES */
 .btn {
     padding: 0.4rem 0.8rem;
     border: none;
@@ -75,6 +77,7 @@ body {
     background: #475569;
 }
 
+/* TABS - PROBLEMA 3: Mismo tamaño */
 .tabs {
     background: #1e293b;
     padding: 0.4rem 0.5rem;
@@ -109,6 +112,11 @@ body {
     background: #475569;
 }
 
+.tab-btn.active:hover {
+    background: #0891b2;
+}
+
+/* CONTENEDOR PRINCIPAL */
 .tab-container {
     padding: 0.5rem;
     max-width: 100%;
@@ -122,6 +130,7 @@ body {
     display: block;
 }
 
+/* CONTROLES DE FECHA */
 .date-controls {
     display: flex;
     gap: 0.5rem;
@@ -147,6 +156,7 @@ body {
     font-weight: 500;
 }
 
+/* SECCIÓN HEADER */
 .section-header {
     margin-bottom: 0.5rem;
     border-bottom: 1px solid #334155;
@@ -158,6 +168,7 @@ body {
     color: #06b6d4;
 }
 
+/* PROBLEMA 5: Controles alineados */
 .section-header.with-controls {
     display: flex;
     align-items: center;
@@ -178,6 +189,7 @@ body {
     color: #06b6d4;
 }
 
+/* LISTA DE HÁBITOS */
 .habits-list {
     list-style: none;
     display: grid;
@@ -189,6 +201,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
 
+/* PROBLEMA 6: % al lado del tipo */
 .type-header {
     grid-column: 1 / -1;
     background: #334155;
@@ -238,6 +251,7 @@ body {
     gap: 0.3rem;
 }
 
+/* PROBLEMA 1: Botón para marcar tareas */
 .mark-habit-btn {
     background: #475569;
     color: white;
@@ -265,6 +279,7 @@ body {
     background: #059669;
 }
 
+/* PROBLEMA 4: % con colores debajo de cada pestaña */
 .tab-percentage {
     margin-top: 1rem;
     padding: 0.6rem;
@@ -302,6 +317,7 @@ body {
     font-size: 0.9rem;
 }
 
+/* MODAL */
 .modal {
     position: fixed;
     top: 0;
@@ -359,6 +375,7 @@ body {
     color: #06b6d4;
 }
 
+/* FORMULARIO */
 .habit-form {
     display: flex;
     flex-direction: column;
@@ -400,6 +417,7 @@ body {
     cursor: pointer;
 }
 
+/* NUEVA FUNCIONALIDAD: Opciones mensuales */
 .monthly-options {
     background: #0f172a;
     padding: 0.7rem;
@@ -432,6 +450,7 @@ body {
     flex: 1;
 }
 
+/* GESTIÓN DE TIPOS */
 .types-section {
     margin-top: 1rem;
     padding-top: 1rem;
@@ -462,6 +481,7 @@ body {
     font-size: 0.85rem;
 }
 
+/* PROBLEMA 7: Botón borrar tipos funcional */
 .delete-type-btn {
     background: #ef4444;
     color: white;
@@ -479,6 +499,7 @@ body {
     background: #dc2626;
 }
 
+/* LISTA DE HÁBITOS EN MODAL */
 .habits-list-modal {
     list-style: none;
 }
@@ -507,6 +528,7 @@ body {
     font-size: 0.75rem;
 }
 
+/* PROBLEMA 8: Botones verticales */
 .habit-actions {
     display: flex;
     flex-direction: column;
@@ -527,6 +549,10 @@ body {
 .edit-habit-btn {
     background: #06b6d4;
     color: #0f172a;
+    font-weight:
+.edit-habit-btn {
+    background: #06b6d4;
+    color: #0f172a;
     font-weight: 600;
 }
 
@@ -543,6 +569,7 @@ body {
     background: #dc2626;
 }
 
+/* HISTÓRICO */
 .historic-content {
     padding: 0.5rem;
     color: #94a3b8;
@@ -554,6 +581,7 @@ hr {
     margin: 1rem 0;
 }
 
+/* RESPONSIVE */
 @media (max-width: 768px) {
     body {
         font-size: 13px;
@@ -562,6 +590,7 @@ hr {
     .app-header {
         padding: 0.4rem 0.6rem;
     }
+
     .app-header h1 {
         font-size: 1rem;
     }
