@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,99 +13,105 @@
             <button id="loginBtn" class="btn btn-primary">Entrar amb Google</button>
             <button id="logoutBtn" class="btn btn-secondary hidden">Tancar sessió</button>
             <span id="userEmail" class="user-email"></span>
+            <button id="manageHabitsBtn" class="btn btn-primary">Afegir/Gestionar Hàbits</button>
         </div>
     </header>
 
     <nav class="tabs">
         <button class="tab-btn active" data-tab="totElDiaTab">Tot el dia</button>
-        <button class="tab-btn" data-tab="matiTab">Mati</button>
+        <button class="tab-btn" data-tab="matiTab">Matí</button>
         <button class="tab-btn" data-tab="migDiaTab">Mig dia</button>
         <button class="tab-btn" data-tab="tardaTab">Tarda</button>
         <button class="tab-btn" data-tab="nitTab">Nit</button>
         <button class="tab-btn" data-tab="setmanatTab">Setmanal</button>
         <button class="tab-btn" data-tab="mensualTab">Mensual</button>
-        <button class="tab-btn" data-tab="historicTab">Historic</button>
-        <button id="manageHabitsBtn" class="btn btn-primary">Afegir/Gestionar Hàbits</button>
+        <button class="tab-btn" data-tab="historicTab">Històric</button>
     </nav>
 
     <main class="tab-container">
-        <!-- CONTROLES PARA 5 PRIMERAS PESTAÑAS -->
         <div id="dateControls" class="date-controls">
             <button id="todayBtn" class="btn btn-small">Avui</button>
             <input type="date" id="dateSelector" class="date-input">
             <span id="selectedDateDisplay" class="date-display"></span>
         </div>
 
-        <!-- PESTAÑA 1: Tot el dia -->
+        <!-- Tot el dia -->
         <section id="totElDiaTab" class="tab-content active">
             <header class="section-header">
                 <h2>Tot el dia</h2>
             </header>
             <ul id="totElDiaHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="totElDiaPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 2: Mati -->
+        <!-- Matí -->
         <section id="matiTab" class="tab-content">
             <header class="section-header">
-                <h2>Mati</h2>
+                <h2>Matí</h2>
             </header>
             <ul id="matiHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="matiPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 3: Mig dia -->
+        <!-- Mig dia -->
         <section id="migDiaTab" class="tab-content">
             <header class="section-header">
                 <h2>Mig dia</h2>
             </header>
             <ul id="migDiaHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="migDiaPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 4: Tarda -->
+        <!-- Tarda -->
         <section id="tardaTab" class="tab-content">
             <header class="section-header">
                 <h2>Tarda</h2>
             </header>
             <ul id="tardaHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="tardaPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 5: Nit -->
+        <!-- Nit -->
         <section id="nitTab" class="tab-content">
             <header class="section-header">
                 <h2>Nit</h2>
             </header>
             <ul id="nitHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="nitPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 6: Setmanal -->
+        <!-- Setmanal -->
         <section id="setmanatTab" class="tab-content">
-            <header class="section-header">
-                <h2>Setmanal</h2>
-                <div class="week-controls">
-                    <button id="prevWeekBtn" class="btn btn-small">← Anterior</button>
-                    <span id="weekDisplay" class="week-display"></span>
-                    <button id="nextWeekBtn" class="btn btn-small">Següent →</button>
+            <header class="section-header with-controls">
+                <button id="prevWeekBtn" class="btn btn-small">←</button>
+                <div class="header-title">
+                    <h2>Setmanal</h2>
+                    <span id="weekDisplay" class="date-display"></span>
                 </div>
+                <button id="nextWeekBtn" class="btn btn-small">→</button>
             </header>
             <ul id="setmanatHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="setmanatPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 7: Mensual -->
+        <!-- Mensual -->
         <section id="mensualTab" class="tab-content">
-            <header class="section-header">
-                <h2>Mensual</h2>
-                <div class="month-controls">
-                    <button id="prevMonthBtn" class="btn btn-small">← Anterior</button>
-                    <span id="monthDisplay" class="month-display"></span>
-                    <button id="nextMonthBtn" class="btn btn-small">Següent →</button>
+            <header class="section-header with-controls">
+                <button id="prevMonthBtn" class="btn btn-small">←</button>
+                <div class="header-title">
+                    <h2>Mensual</h2>
+                    <span id="monthDisplay" class="date-display"></span>
                 </div>
+                <button id="nextMonthBtn" class="btn btn-small">→</button>
             </header>
             <ul id="mensualHabitsList" class="habits-list compact"></ul>
+            <div class="tab-percentage" id="mensualPercentage"></div>
         </section>
 
-        <!-- PESTAÑA 8: Historic -->
+        <!-- Històric -->
         <section id="historicTab" class="tab-content">
             <header class="section-header">
-                <h2>Historic</h2>
+                <h2>Històric</h2>
             </header>
             <div id="historicContent" class="historic-content"></div>
         </section>
@@ -129,27 +135,72 @@
 
                 <div class="form-group">
                     <label>Tipus</label>
-                    <select id="habitType" required>
-                        <option value="higiene">Higiene</option>
-                        <option value="personal">Personal</option>
-                        <option value="dieta">Dieta</option>
-                        <option value="dormir">Dormir</option>
-                        <option value="deporte">Deporte</option>
-                        <option value="crecimiento">Creixement Personal</option>
-                    </select>
+                    <select id="habitType" required></select>
                 </div>
 
                 <div class="form-group">
                     <label>Freqüència</label>
                     <select id="habitFrequency" required>
                         <option value="allday">Tot el dia</option>
-                        <option value="morning">Mati</option>
+                        <option value="morning">Matí</option>
                         <option value="noon">Mig dia</option>
                         <option value="evening">Tarda</option>
                         <option value="night">Nit</option>
                         <option value="weekly">Setmanal</option>
                         <option value="monthly">Mensual</option>
                     </select>
+                </div>
+
+                <!-- Opciones para hábitos mensuales -->
+                <div id="monthlyOptions" class="monthly-options hidden">
+                    <div class="form-row">
+                        <div class="form-group form-group-small">
+                            <label>Dia del mes</label>
+                            <select id="habitMonthDay" class="compact-select">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15" selected>15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-group-small">
+                            <label>Repetir cada</label>
+                            <select id="habitMonthFrequency" class="compact-select">
+                                <option value="1" selected>1 mes</option>
+                                <option value="2">2 mesos</option>
+                                <option value="3">3 mesos</option>
+                                <option value="6">6 mesos</option>
+                                <option value="12">1 any</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -161,30 +212,31 @@
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" id="cancelHabitBtn" class="btn btn-secondary">Cancelar</button>
+                    <button type="button" id="cancelHabitBtn" class="btn btn-secondary">Cancel·lar</button>
                 </div>
             </form>
 
             <hr>
+
             <div class="types-section">
                 <h3>Gestionar Tipus de Hàbits</h3>
                 <div id="typesList" class="types-list"></div>
-                <div class="form-group">
-                    <input type="text" id="newTypeName" placeholder="Nou tipus...">
-                    <button type="button" id="addTypeBtn" class="btn btn-primary">Afegir Tipus</button>
+                <div class="form-group" style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="newTypeName" placeholder="Nou tipus..." style="flex: 1;">
+                    <button type="button" id="addTypeBtn" class="btn btn-primary">Afegir</button>
                 </div>
             </div>
 
             <hr>
+
             <h3>Hàbits Existents</h3>
-            <ul id="habitsList" class="habits-list"></ul>
+            <ul id="habitsList" class="habits-list-modal"></ul>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCkmAZGru2tN45I812Yo8AslQd-1pQleJo",
@@ -199,7 +251,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
     </script>
-
     <script src="app.js"></script>
 </body>
 </html>
