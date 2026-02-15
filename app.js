@@ -1,4 +1,4 @@
-// ===== HABIT TRACKER PRO - VERSIÓN FINAL =====
+// ===== HABIT TRACKER PRO - VERSIÓN FINAL COMPLETA =====
 
 let currentUser = null;
 let habits = [];
@@ -43,24 +43,16 @@ const habitsList = document.getElementById('habitsList');
 const newTypeNameInput = document.getElementById('newTypeName');
 const addTypeBtn = document.getElementById('addTypeBtn');
 const typesList = document.getElementById('typesList');
-
-// NUEVA FUNCIONALIDAD: Campos mensuales
 const monthlyOptions = document.getElementById('monthlyOptions');
 const habitMonthDay = document.getElementById('habitMonthDay');
 const habitMonthFrequency = document.getElementById('habitMonthFrequency');
-
-// Controles de fecha
 const dateControls = document.getElementById('dateControls');
 const todayBtn = document.getElementById('todayBtn');
 const dateSelector = document.getElementById('dateSelector');
 const selectedDateDisplay = document.getElementById('selectedDateDisplay');
-
-// Controles de semana
 const prevWeekBtn = document.getElementById('prevWeekBtn');
 const nextWeekBtn = document.getElementById('nextWeekBtn');
 const weekDisplay = document.getElementById('weekDisplay');
-
-// Controles de mes
 const prevMonthBtn = document.getElementById('prevMonthBtn');
 const nextMonthBtn = document.getElementById('nextMonthBtn');
 const monthDisplay = document.getElementById('monthDisplay');
@@ -278,7 +270,6 @@ function initializeApp() {
     updateTypeSelect();
 }
 
-// ===== UI DE USUARIO =====
 function updateUserUI() {
     if (currentUser) {
         loginBtn.classList.add('hidden');
@@ -290,7 +281,6 @@ function updateUserUI() {
         userEmailSpan.textContent = '';
     }
 }
-
 // ===== MODAL =====
 if (manageHabitsBtn) {
     manageHabitsBtn.addEventListener('click', () => openHabitModal());
@@ -310,7 +300,6 @@ if (cancelHabitBtn) {
     cancelHabitBtn.addEventListener('click', closeHabitModal);
 }
 
-// NUEVA FUNCIONALIDAD: Mostrar/ocultar opciones mensuales
 if (habitFrequencySelect) {
     habitFrequencySelect.addEventListener('change', () => {
         if (habitFrequencySelect.value === 'monthly') {
@@ -334,7 +323,6 @@ function openHabitModal(habit = null) {
         habitFrequencySelect.value = habit.frequency || 'allday';
         habitActiveCheckbox.checked = habit.active !== false;
         
-        // NUEVA FUNCIONALIDAD: Cargar datos mensuales
         if (habit.frequency === 'monthly') {
             monthlyOptions.classList.remove('hidden');
             habitMonthDay.value = habit.monthDay || 15;
@@ -380,7 +368,6 @@ if (habitForm) {
             active: habitActiveCheckbox.checked
         };
 
-        // NUEVA FUNCIONALIDAD: Guardar datos mensuales
         if (habitFrequencySelect.value === 'monthly') {
             habitData.monthDay = parseInt(habitMonthDay.value);
             habitData.monthFrequency = parseInt(habitMonthFrequency.value);
@@ -399,7 +386,7 @@ if (habitForm) {
     });
 }
 
-// ===== RENDERIZAR LISTA DE HÁBITOS EN MODAL (PROBLEMA 8: Alfabéticamente y botones verticales) =====
+// ===== PROBLEMA 8: RENDERIZAR LISTA DE HÁBITOS ALFABÉTICAMENTE =====
 function renderHabitsList() {
     if (!habitsList) return;
     habitsList.innerHTML = '';
@@ -409,7 +396,6 @@ function renderHabitsList() {
         return;
     }
 
-    // PROBLEMA 8: Ordenar alfabéticamente
     const sortedHabits = [...habits].sort((a, b) => a.name.localeCompare(b.name));
 
     sortedHabits.forEach(habit => {
@@ -425,4 +411,214 @@ function renderHabitsList() {
                 <small>${capitalizar(habit.type)} · ${frequencyLabel} · ${activeLabel}</small>
             </div>
             <div class="habit-actions">
-                <button class="edit-habit-btn" data-id="${habit.id}">Editar
+                <button class="edit-habit-btn" data-id="${habit.id}">Editar</button>
+                <button class="delete-habit-btn" data-id="${habit.id}">Borrar</button>
+            </div>
+        `;
+        habitsList.appendChild(li);
+    });
+
+    document.querySelectorAll('.edit-habit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const habit = habits.find(h => h.id === btn.dataset.id);
+            if (habit) openHabitModal(habit);
+        });
+    });
+
+    document.querySelectorAll('.delete-habit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (confirm('Borrar aquest hàbit?')) {
+                habits = habits.filter(h => h.id !== btn.dataset.id);
+                saveData();
+                renderAllTabs();
+                renderHabitsList();
+            }
+        });
+    });
+}
+
+function getFrequencyLabel(habit) {
+    const labels = {
+        allday: 'Tot el dia',
+        morning: 'Matí',
+        noon: 'Mig dia',
+        evening: 'Tarda',
+        night: 'Nit',
+        weekly: 'Setmanal',
+        monthly: 'Mensual'
+    };
+    
+    let label = labels[habit.frequency] || habit.frequency;
+    
+    if (habit.frequency === 'monthly' && habit.monthDay && habit.monthFrequency) {
+        const freqText = habit.monthFrequency === 1 ? 'mes' : 
+                        habit.monthFrequency === 12 ? 'any' : 
+                        `${habit.monthFrequency} mesos`;
+        label += ` (dia ${habit.monthDay}, cada ${freqText})`;
+    }
+    
+    return label;
+}
+
+// ===== PROBLEMA 7: GESTIÓN DE TIPOS CON BORRADO =====
+if (addTypeBtn) {
+    addTypeBtn.addEventListener('click', () => {
+        const typeName = newTypeNameInput.value.trim().toLowerCase();
+        if (typeName && !habitTypes.includes(typeName)) {
+            habitTypes.push(typeName);
+            habitTypes.sort();
+            saveData();
+            newTypeNameInput.value = '';
+            renderTypesList();
+            updateTypeSelect();
+        }
+    });
+}
+
+function renderTypesList() {
+    if (!typesList) return;
+    typesList.innerHTML = '';
+
+    habitTypes.forEach(type => {
+        const div = document.createElement('div');
+        div.className = 'type-item';
+        div.innerHTML = `
+            <span>${capitalizar(type)}</span>
+            <button class="delete-type-btn" data-type="${type}">×</button>
+        `;
+        typesList.appendChild(div);
+    });
+
+    document.querySelectorAll('.delete-type-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const typeToDelete = btn.dataset.type;
+            const habitsWithType = habits.filter(h => h.type === typeToDelete);
+            
+            if (habitsWithType.length > 0) {
+                alert(`No es pot borrar aquest tipus perquè hi ha ${habitsWithType.length} hàbit(s) que l'utilitzen.`);
+                return;
+            }
+            
+            if (confirm('Borrar aquest tipus?')) {
+                habitTypes = habitTypes.filter(t => t !== typeToDelete);
+                saveData();
+                renderTypesList();
+                updateTypeSelect();
+            }
+        });
+    });
+}
+
+function updateTypeSelect() {
+    if (!habitTypeSelect) return;
+    const currentValue = habitTypeSelect.value;
+    habitTypeSelect.innerHTML = '';
+
+    habitTypes.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = capitalizar(type);
+        habitTypeSelect.appendChild(option);
+    });
+
+    if (habitTypes.includes(currentValue)) {
+        habitTypeSelect.value = currentValue;
+    }
+}
+
+// ===== RENDERIZACIÓN POR PESTAÑAS =====
+function renderAllTabs() {
+    renderTabByFrequency('totElDiaTab');
+    renderTabByFrequency('matiTab');
+    renderTabByFrequency('migDiaTab');
+    renderTabByFrequency('tardaTab');
+    renderTabByFrequency('nitTab');
+    renderTabByFrequency('setmanatTab');
+    renderTabByFrequency('mensualTab');
+}
+
+function renderAllDayTabs() {
+    renderTabByFrequency('totElDiaTab');
+    renderTabByFrequency('matiTab');
+    renderTabByFrequency('migDiaTab');
+    renderTabByFrequency('tardaTab');
+    renderTabByFrequency('nitTab');
+}
+
+function renderTabByFrequency(tabId) {
+    const frequencyMap = {
+        totElDiaTab: 'allday',
+        matiTab: 'morning',
+        migDiaTab: 'noon',
+        tardaTab: 'evening',
+        nitTab: 'night',
+        setmanatTab: 'weekly',
+        mensualTab: 'monthly'
+    };
+
+    const frequency = frequencyMap[tabId];
+    const listId = tabId.replace('Tab', 'HabitsList');
+    const listElement = document.getElementById(listId);
+    if (!listElement) return;
+
+    const habitsInFreq = habits.filter(h => h.active && h.frequency === frequency);
+
+    if (!habitsInFreq.length) {
+        listElement.innerHTML = '<li class="empty-message">No hi ha hàbits per a aquesta freqüència</li>';
+        updateTabPercentage(tabId, 0, 0);
+        return;
+    }
+
+    const byType = {};
+    habitsInFreq.forEach(h => {
+        const type = h.type || 'personal';
+        if (!byType[type]) byType[type] = [];
+        byType[type].push(h);
+    });
+
+    listElement.innerHTML = '';
+    let totalHabits = 0;
+    let doneHabits = 0;
+
+    Object.keys(byType).sort().forEach(type => {
+        const typeHabits = byType[type];
+        const typeDone = typeHabits.filter(h => isHabitDoneFor(h, tabId)).length;
+        const typeTotal = typeHabits.length;
+        const typePercentage = typeTotal > 0 ? Math.round((typeDone / typeTotal) * 100) : 0;
+
+        totalHabits += typeTotal;
+        doneHabits += typeDone;
+
+        const typeHeader = document.createElement('li');
+        typeHeader.className = 'type-header';
+        typeHeader.innerHTML = `
+            <span>${capitalizar(type)}</span>
+            <span class="type-percentage">${typePercentage}%</span>
+        `;
+        listElement.appendChild(typeHeader);
+
+        typeHabits.forEach(habit => {
+            const li = document.createElement('li');
+            li.className = 'compact-habit-item';
+            
+            const isDone = isHabitDoneFor(habit, tabId);
+            
+            li.innerHTML = `
+                <div class="habit-name">${habit.name}</div>
+                <div class="habit-controls">
+                    <button class="mark-habit-btn ${isDone ? 'done' : ''}" data-id="${habit.id}" data-tab="${tabId}">✓</button>
+                </div>
+            `;
+            listElement.appendChild(li);
+        });
+    });
+
+    document.querySelectorAll('.mark-habit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            toggleHabit(btn.dataset.id, btn.dataset.tab);
+        });
+    });
+
+    const percentage = totalHabits > 0 ? Math.round((doneHabits / totalHabits) * 100) : 0;
+    updateTabPercentage(tabId, percentage, totalHabits);
+}
