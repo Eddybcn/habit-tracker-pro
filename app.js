@@ -622,3 +622,127 @@ function renderTabByFrequency(tabId) {
     const percentage = totalHabits > 0 ? Math.round((doneHabits / totalHabits) * 100) : 0;
     updateTabPercentage(tabId, percentage, totalHabits);
 }
+// ===== PROBLEMA 4: MOSTRAR PORCENTAJE CON COLORES =====
+function updateTabPercentage(tabId, percentage, total) {
+    const percentageId = tabId.replace('Tab', 'Percentage');
+    const percentageElement = document.getElementById(percentageId);
+    
+    if (!percentageElement) return;
+    
+    if (total === 0) {
+        percentageElement.textContent = '';
+        percentageElement.className = 'tab-percentage';
+        return;
+    }
+    
+    percentageElement.textContent = `${percentage}% completat`;
+    percentageElement.className = 'tab-percentage';
+    
+    if (percentage < 50) {
+        percentageElement.classList.add('low');
+    } else if (percentage < 90) {
+        percentageElement.classList.add('medium');
+    } else {
+        percentageElement.classList.add('high');
+    }
+}
+
+// ===== PROBLEMA 1: MARCAR HÁBITOS EN TODAS LAS PESTAÑAS =====
+function isHabitDoneFor(habit, tabId) {
+    let key = '';
+    
+    if (['totElDiaTab', 'matiTab', 'migDiaTab', 'tardaTab', 'nitTab'].includes(tabId)) {
+        key = `${habit.id}-${selectedDate}`;
+    } else if (tabId === 'setmanatTab') {
+        const weekEnd = new Date(selectedWeekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        key = `${habit.id}-${selectedWeekStart.toISOString().split('T')[0]}-${weekEnd.toISOString().split('T')[0]}`;
+    } else if (tabId === 'mensualTab') {
+        // NUEVA FUNCIONALIDAD: Verificar si el hábito mensual está hecho
+        if (habit.monthDay && habit.monthFrequency) {
+            const currentDay = selectedMonth.getDate();
+            const targetDay = habit.monthDay;
+            
+            // Solo mostrar si estamos en el día correcto o después
+            if (currentDay >= targetDay) {
+                const year = selectedMonth.getFullYear();
+                const month = selectedMonth.getMonth();
+                key = `${habit.id}-${year}-${month}`;
+            } else {
+                return false;
+            }
+        } else {
+            const year = selectedMonth.getFullYear();
+            const month = selectedMonth.getMonth();
+            key = `${habit.id}-${year}-${month}`;
+        }
+    }
+    
+    return habitLogs.some(log => log.key === key && log.done);
+}
+
+function toggleHabit(habitId, tabId) {
+    let key = '';
+    
+    if (['totElDiaTab', 'matiTab', 'migDiaTab', 'tardaTab', 'nitTab'].includes(tabId)) {
+        key = `${habitId}-${selectedDate}`;
+    } else if (tabId === 'setmanatTab') {
+        const weekEnd = new Date(selectedWeekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        key = `${habitId}-${selectedWeekStart.toISOString().split('T')[0]}-${weekEnd.toISOString().split('T')[0]}`;
+    } else if (tabId === 'mensualTab') {
+        const year = selectedMonth.getFullYear();
+        const month = selectedMonth.getMonth();
+        key = `${habitId}-${year}-${month}`;
+    }
+    
+    const existingLog = habitLogs.find(log => log.key === key);
+    
+    if (existingLog) {
+        existingLog.done = !existingLog.done;
+    } else {
+        habitLogs.push({
+            key,
+            habitId,
+            date: selectedDate,
+            done: true
+        });
+    }
+    
+    saveData();
+    renderTabByFrequency(tabId);
+}
+
+// ===== HISTÓRICO =====
+function renderHistoric() {
+    const historicContent = document.getElementById('historicContent');
+    if (!historicContent) return;
+    
+    historicContent.innerHTML = '<p style="padding: 1rem; color: #94a3b8;">Dades històriques - Funcionalitat en desenvolupament</p>';
+}
+
+// ===== FUNCIONES AUXILIARES =====
+function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}
+
+function capitalizar(text) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+// ===== INICIALIZACIÓN =====
+document.addEventListener('DOMContentLoaded', () => {
+    if (dateSelector) {
+        dateSelector.value = getTodayISO();
+    }
+    updateDateDisplay();
+    updateWeekDisplay();
+    updateMonthDisplay();
+    
+    if (!currentUser) {
+        loadFromLocal();
+    }
+    
+    updateTypeSelect();
+});
